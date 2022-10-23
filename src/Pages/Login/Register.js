@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const Register = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const [error, setError] = useState("");
+  const [accepted, setAccepted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +16,7 @@ const Register = () => {
     const photoURL = form.photoURL.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(name, photoURL, email, password);
+    //console.log(name, photoURL, email, password);
 
     createUser(email, password)
       .then((result) => {
@@ -23,11 +24,23 @@ const Register = () => {
         console.log(user);
         setError("");
         form.reset();
+        handleUpdateUserProfile(name, photoURL);
       })
       .catch((error) => {
         const errorMessage = error.message;
         setError(errorMessage);
       });
+  };
+
+  const handleUpdateUserProfile = (name,photoURL) => {
+    const profile = { displayName: name, photoURL: photoURL };
+    updateUserProfile(profile)
+      .then(() => {})
+      .catch(() => {});
+  };
+
+  const handleAccepted = (e) => {
+    setAccepted(e.target.checked);
   };
 
   return (
@@ -72,15 +85,16 @@ const Register = () => {
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
         <Form.Check
           type="checkbox"
+          onClick={handleAccepted}
           label={
             <>
-              Accept <Link to={"/terms&conditions"}>Terms and Condition</Link>
+              I Accept <Link to={"/terms&conditions"}>Terms and Conditions.</Link>
             </>
           }
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" disabled={!accepted} >
         Register
       </Button>
     </Form>
