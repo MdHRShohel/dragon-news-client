@@ -59,15 +59,24 @@ const Header = () => {
                   <>
                     <span>{user?.displayName}</span>
                     <Button
-                    onClick={handleLogOut}
-                    className="ms-2" 
-                    variant="light">Log Out</Button>
+                      onClick={handleLogOut}
+                      className="ms-2"
+                      variant="light"
+                    >
+                      Log Out
+                    </Button>
                   </>
                 ) : (
-                  <div>
-                    <Link to="/login">Login</Link>
-                    <Link to="/register">Register</Link>
-                  </div>
+                  <>
+                    <Link to="/login">
+                      <Button className="me-2" variant="primary">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link to="/register">
+                      <Button variant="outline-primary">Register</Button>
+                    </Link>
+                  </>
                 )}
               </Nav.Link>
               <Nav.Link eventKey={2}>

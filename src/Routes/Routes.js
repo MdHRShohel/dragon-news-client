@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../../layout/Main";
-import Category from "../../Pages/Categories/Category/Category";
-import Home from "../../Pages/Home/Home";
-import Login from "../../Pages/Login/Login";
-import Register from "../../Pages/Login/Register";
-import News from "../../Pages/News/News/News";
+import Main from "../layout/Main";
+import Category from "../Pages/Categories/Category/Category";
+import Home from "../Pages/Home/Home";
+import Login from "../Pages/Login/Login";
+import Register from "../Pages/Login/Register";
+import News from "../Pages/News/News/News";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const routes = createBrowserRouter([
   {
@@ -24,8 +25,13 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/news/:id",
-        element: <News></News>,
-        loader: ({ params }) => fetch(`http://localhost:5000/news/${params.id}`),
+        element: (
+          <PrivateRoutes>
+            <News></News>
+          </PrivateRoutes>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/news/${params.id}`),
       },
       {
         path: "/login",
@@ -33,8 +39,8 @@ export const routes = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Register></Register>
-      }
+        element: <Register></Register>,
+      },
     ],
   },
 ]);
