@@ -6,11 +6,20 @@ import { Link } from 'react-router-dom';
 import NavDropdown from "react-bootstrap/NavDropdown";
 import LeftSideNav from '../LeftSideNav/LeftSideNav';
 import { AuthContext } from '../../../contexts/AuthProvider/AuthProvider';
-import { Image } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import { FaUserAlt } from "react-icons/fa";
 
 const Header = () => {
-  const {user} = useContext(AuthContext);
+  const {user,logOut} = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        console.log('User Logged Out');
+      })
+      .catch(error => console.error(error))
+  };
+
     return (
       <Navbar
         className="mb-4"
@@ -45,8 +54,23 @@ const Header = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link>{user?.displayName}</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
+              <Nav.Link>
+                {user?.uid ? (
+                  <>
+                    <span>{user?.displayName}</span>
+                    <Button
+                    onClick={handleLogOut}
+                    className="ms-2" 
+                    variant="light">Log Out</Button>
+                  </>
+                ) : (
+                  <div>
+                    <Link to="/login">Login</Link>
+                    <Link to="/register">Register</Link>
+                  </div>
+                )}
+              </Nav.Link>
+              <Nav.Link eventKey={2}>
                 {user?.photoURL ? (
                   <Image
                     style={{ height: "30px" }}
@@ -54,7 +78,7 @@ const Header = () => {
                     src={user?.photoURL}
                   ></Image>
                 ) : (
-                  <FaUserAlt/>
+                  <FaUserAlt />
                 )}
               </Nav.Link>
             </Nav>
