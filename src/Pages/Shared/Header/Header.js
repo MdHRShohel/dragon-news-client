@@ -54,7 +54,7 @@ const Header = () => {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link>
+              <Nav>
                 {user?.uid ? (
                   <>
                     <span>{user?.displayName}</span>
@@ -78,8 +78,8 @@ const Header = () => {
                     </Link>
                   </>
                 )}
-              </Nav.Link>
-              <Nav.Link eventKey={2}>
+              </Nav>
+              <Nav.Link>
                 {user?.photoURL ? (
                   <Image
                     style={{ height: "30px" }}
